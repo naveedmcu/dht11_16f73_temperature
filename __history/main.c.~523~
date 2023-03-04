@@ -10,12 +10,11 @@
 // LCD module connections
 // end LCD module connections
 //!#include <16F72.h>
-#include <16F877a.h>
+#include <16F73.h>
 #priority TIMER0,TIMER1
 #fuses HS, NOWDT,
 #use delay(clock = 8000000)
 #use fast_io(B)
-#include <max6657.c>
 #define DHT11_PIN PIN_A0 // connection pin between DHT11 and mcu
 #define digit_one_on output_high(PIN_C0)
 #define digit_one_off output_low(PIN_C0)
@@ -33,13 +32,14 @@
 #define rly1_off output_high(PIN_A1)
 #define rly2_on output_low(PIN_A2)
 #define rly2_off output_high(PIN_A2)
-#define set_button input_state(PIN_A3)
-#define up_button input_state(PIN_A4)
-#define down_button input_state(PIN_A5)
+#define set_button input_state(PIN_C6)
+#define up_button input_state(PIN_C7)
+#define down_button input_state(PIN_A3)
 #define TimeOut_Count 100
 #define press 0
 #define nopress 1
 #rom  2037= {25,20,50,40,0,0,0,0}
+#include <max6657.c>
 //!#use rs232(baud=9600, xmitPIN_C6,rcv=PIN_C7)
 int16  temp_Address_high = 2047-10;
 int16  temp_Address_low = 2047-9;
@@ -55,72 +55,73 @@ signed int16 temp_high,temp_low,hum_high,hum_low,menu_counter=0,main_temp,main_h
 void dht11_RunTime();
 void menu();
 void runtime_relay_function();
+void runtime_kthermo();
 void start_signal()
 {
-   output_drive (DHT11_PIN); // configure connection pin as output
-   output_low (DHT11_PIN); // connection pin output low
-   delay_ms (25) ;
-   output_high (DHT11_PIN); // connection pin output high
-   delay_us (30) ;
-   output_float (DHT11_PIN); // configure connection pin as input
+//!   output_drive (DHT11_PIN); // configure connection pin as output
+//!   output_low (DHT11_PIN); // connection pin output low
+//!   delay_ms (25) ;
+//!   output_high (DHT11_PIN); // connection pin output high
+//!   delay_us (30) ;
+//!   output_float (DHT11_PIN); // configure connection pin as input
 }
 
 short check_response()
 {
-   delay_us (40) ;
-   if (!input (DHT11_PIN))
-   {
-      // read and test if connection pin is low
-      delay_us (80) ;
-      if (input (DHT11_PIN))
-      {
-         // read and test if connection pin is high
-         delay_us (50) ;
-         return 1;
-      }
-   }
+//!   delay_us (40) ;
+//!   if (!input (DHT11_PIN))
+//!   {
+//!      // read and test if connection pin is low
+//!      delay_us (80) ;
+//!      if (input (DHT11_PIN))
+//!      {
+//!         // read and test if connection pin is high
+//!         delay_us (50) ;
+//!         return 1;
+//!      }
+//!   }
 }
 
 unsigned int8 Read_Data()
 {
-   unsigned int8 i, k, _data = 0; // k is used to count 1 bit reading duration
-   if (Time_out)
-   break;
-   for (i = 0; i < 8; i++)
-   {
-      k = 0;
-      while (!input (DHT11_PIN))
-      {
-         // Wait until DHT11 pin get raised
-         k++;
-         if (k > TimeOut_Count)
-         {
-            Time_out = 1;
-            break;
-         }
-
-         delay_us (1) ;
-      }
-      delay_us (30) ;
-      if (!input (DHT11_PIN))
-      bit_clear (_data, (7 - i) ); // Clear bit (7 - i)
-      else
-      {
-         bit_set (_data, (7 - i) ); // Set bit (7 - i)
-         while (input (DHT11_PIN))
-         {
-            // Wait until DHT11 pin goes low
-            k++;
-            if (k > TimeOut_Count)
-            {
-               Time_out = 1;
-               break;
-            }
-            delay_us (1) ;
-         }
-      }
-   }
-   return _data;
+//!   unsigned int8 i, k, _data = 0; // k is used to count 1 bit reading duration
+//!   if (Time_out)
+//!   break;
+//!   for (i = 0; i < 8; i++)
+//!   {
+//!      k = 0;
+//!      while (!input (DHT11_PIN))
+//!      {
+//!         // Wait until DHT11 pin get raised
+//!         k++;
+//!         if (k > TimeOut_Count)
+//!         {
+//!            Time_out = 1;
+//!            break;
+//!         }
+//!
+//!         delay_us (1) ;
+//!      }
+//!      delay_us (30) ;
+//!      if (!input (DHT11_PIN))
+//!      bit_clear (_data, (7 - i) ); // Clear bit (7 - i)
+//!      else
+//!      {
+//!         bit_set (_data, (7 - i) ); // Set bit (7 - i)
+//!         while (input (DHT11_PIN))
+//!         {
+//!            // Wait until DHT11 pin goes low
+//!            k++;
+//!            if (k > TimeOut_Count)
+//!            {
+//!               Time_out = 1;
+//!               break;
+//!            }
+//!            delay_us (1) ;
+//!         }
+//!      }
+//!   }
+//!   return _data;
 }
 
 //==============================================================================
@@ -222,13 +223,13 @@ void fill_display_buff(signed int16 data,int8 titale)
 //=============================================================================
 void dht_display()
 {
-   digit_one = digit[message1[0]-48];
-   digit_two = digit[message1[1] -48];
+//!   digit_one = digit[message1[0]-48];
+//!   digit_two = digit[message1[1] -48];
 //!   digit_three = digit[message1[2] -48];
-   digit_three = digit[10];
+//!   digit_three = digit[10];
    digit_four = digit[10];
-   digit_five = digit[message2[0] -48];
-   digit_six = digit[message2[1] -48];
+   digit_one = digit[message2[0] -48];
+   digit_two = digit[message2[1] -48];
 }
 //=============================================================================
   void temp_down_set(){
@@ -416,12 +417,13 @@ void main()
    disable_interrupts (int_TIMER1) ;
 //!   enable_interrupts (PERIPH) ;
    enable_interrupts (GLOBAL) ;
+   do_everything(TC_CS);
    delay_ms (1000) ;
    while (TRUE)
    {
 //!   fill_display_buff(999);
       menu();
-      dht11_RunTime();
+      runtime_kthermo();
       runtime_relay_function();
       delay_ms (10) ;
    }
@@ -431,39 +433,33 @@ void menu()
 if(set_button == press )
  {
   menu_counter++;
-//!  if(menu_counter > 5)
-//!  {
-//!   menu_counter = 0;
-//!  }
  }
  switch (menu_counter)
  {
   case 0:
    dht_display();
   break;
+//!  case 1:
+//!   temp_up_set();
+//!  break;
+//!  case 2:
+//!   temp_down_set();
+//!  break;
   case 1:
+//!   hum_up_set();
    temp_up_set();
   break;
   case 2:
+//!   hum_down_set();
    temp_down_set();
   break;
   case 3:
-   hum_up_set();
-  break;
-  case 4:
-   hum_down_set();
-  break;
-  case 5:
-  if(temp_low >= temp_high && hum_low >= hum_high)
+//!  if(temp_low >= temp_high && hum_low >= hum_high)
+  if(temp_low >= temp_high)
   {
    display_err();
    delay_ms(1000);
   }else {
-   int16 i;  
-   read_program_memory(getenv("PROGRAM_MEMORY"), rBuffer[0].buffer, getenv("FLASH_ERASE_SIZE") - (getenv("PROGRAM_MEMORY") % getenv("FLASH_ERASE_SIZE")));
-   erase_program_eeprom(addr);
-   write_program_memory(getenv("PROGRAM_MEMORY"), rBuffer[0].buffer, getenv("FLASH_ERASE_SIZE") - (getenv("PROGRAM_MEMORY") % getenv("FLASH_ERASE_SIZE")));
-
 //!   write_program_eeprom(temp_Address_high,(int16)temp_high);
 //!   write_program_eeprom(temp_Address_low,(int16)temp_low);
 //!   write_program_eeprom(hum_Address_high,(int16)hum_high);
@@ -475,6 +471,19 @@ if(set_button == press )
   break;
  }
  while(set_button == press);
+}
+void runtime_kthermo()
+{
+   main_temp = do_everything(TC_CS);
+//!   main_temp = 57;
+   message1[0] = ((main_temp /100)%10) + 48;
+   message1[1] = ((main_temp /10) % 10) + 48;
+   message1[2] = ((main_temp /1)%10) + 48;
+//!   message2[0] = RH_Byte1 / 10 + 48;
+//!   message2[1] = RH_Byte1 % 10 + 48;
+//!   message2[2] = RH_Byte2 / 10 + 48;
+   main_temp = ((message1[0]-48)*100)+((message1[1]-48)*10)+(message1[2]-48);
+//!   main_temp = 250;
 }
 void dht11_RunTime()
 {

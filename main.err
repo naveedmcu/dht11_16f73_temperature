@@ -1,9 +1,101 @@
->>> Warning 208 "main.c" Line 69(7,21): Function not void and does not return a value  check_response
->>> Warning 208 "main.c" Line 85(15,24): Function not void and does not return a value  Read_Data
->>> Warning 207 "main.c" Line 250(1,1): Code has no effect
->>> Warning 207 "main.c" Line 288(1,1): Code has no effect
->>> Warning 207 "main.c" Line 325(1,1): Code has no effect
->>> Warning 207 "main.c" Line 362(1,1): Code has no effect
-      Memory usage:   ROM=51%      RAM=43% - 58%
-      0 Errors,  6 Warnings.
-Build Successful.
+*** Error 1 "main.c" Line 52(1,2): Illegal C character in input file  0x80
+*** Error 1 "main.c" Line 52(1,2): Illegal C character in input file  0x00
+*** Error 102 "main.c" Line 52(118,128): Expect comma
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x07
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0xFF
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0xFF
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0xFF
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x06
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0xA6
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0xED
+*** Error 1 "main.c" Line 52(2,3): Illegal C character in input file  0xAA
+*** Error 7 "main.c" Line 52(10,11): Invalid Pre-Processor directive
+*** Error 1 "main.c" Line 52(10,11): Illegal C character in input file  0x92
+*** Error 43 "main.c" Line 52(10,11): Expecting a declaration
+*** Error 1 "main.c" Line 52(13,14): Illegal C character in input file  0xB7
+*** Error 1 "main.c" Line 52(13,14): Illegal C character in input file  0xBC
+*** Error 1 "main.c" Line 52(13,14): Illegal C character in input file  0xF7
+*** Error 1 "main.c" Line 52(13,14): Illegal C character in input file  0xE5
+*** Error 1 "main.c" Line 52(13,14): Illegal C character in input file  0x40
+*** Error 48 "main.c" Line 52(12,13): Expecting a (
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x05
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0xB0
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0xD7
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x01
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x80
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0xD4
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0xCA
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x17
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x08
+*** Error 1 "main.c" Line 52(18,19): Illegal C character in input file  0x40
+*** Error 43 "main.c" Line 52(18,19): Expecting a declaration
+*** Error 1 "main.c" Line 52(26,27): Illegal C character in input file  0xED
+*** Error 1 "main.c" Line 52(26,27): Illegal C character in input file  0x07
+*** Error 1 "main.c" Line 52(26,27): Illegal C character in input file  0xD0
+*** Error 43 "main.c" Line 52(26,27): Expecting a declaration
+*** Error 1 "main.c" Line 52(29,30): Illegal C character in input file  0xED
+*** Error 1 "main.c" Line 52(29,30): Illegal C character in input file  0x07
+*** Error 1 "main.c" Line 52(29,30): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(29,30): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(29,30): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(29,30): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(29,30): Illegal C character in input file  0x90
+*** Error 43 "main.c" Line 52(29,30): Expecting a declaration
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0xED
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x07
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00
+*** Error 1 "main.c" Line 52(32,33): Illegal C character in input file  0x00

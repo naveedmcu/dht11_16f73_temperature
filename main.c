@@ -223,13 +223,13 @@ void fill_display_buff(signed int16 data,int8 titale)
 //=============================================================================
 void dht_display()
 {
-//!   digit_one = digit[message1[0]-48];
-//!   digit_two = digit[message1[1] -48];
-//!   digit_three = digit[message1[2] -48];
+   digit_one = digit[message1[0]-48];
+   digit_two = digit[message1[1] -48];
+   digit_three = digit[message1[2] -48];
 //!   digit_three = digit[10];
-   digit_four = digit[10];
-   digit_one = digit[message2[0] -48];
-   digit_two = digit[message2[1] -48];
+//!   digit_four = digit[10];
+//!   digit_one = digit[message2[0] -48];
+//!   digit_two = digit[message2[1] -48];
 }
 //=============================================================================
   void temp_down_set(){
@@ -446,14 +446,16 @@ if(set_button == press )
 //!   temp_down_set();
 //!  break;
   case 1:
-   hum_up_set();
+//!   hum_up_set();
+   temp_up_set();
   break;
   case 2:
-   hum_down_set();
+//!   hum_down_set();
+   temp_down_set();
   break;
   case 3:
 //!  if(temp_low >= temp_high && hum_low >= hum_high)
-  if(hum_low >= hum_high)
+  if(temp_low >= temp_high)
   {
    display_err();
    delay_ms(1000);

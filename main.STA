@@ -1,0 +1,73 @@
+
+ROM used:   2071/4096 (51%)
+            2257/4096 (55%) including unused fragments
+
+            1.7 Average locations per line
+            7.1 Average locations per statement
+
+RAM used:   82/192 (43%) at main() level
+            111/192 (58%) worst case
+
+Stack used: 3 worst case (2 in main + 1 for interrupts)
+Stack size: 8
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  603   271  93  main.c
+  565     0   0  ..\..\..\..\Program Files (x86)\PICC\Devices\16F73.h
+   54    21   7  max6657.c
+----- -----
+ 1222   292 Total
+
+Page ROM  %  RAM    Vol Diff  Functions:
+---- --- --- ---    --- ----  ----------
+0     19   1    1             @delay_ms1
+ Inline         1     59  1.2  init_TC
+0     29   1    5    262  3.7  @WRITEBITA
+ Inline         4    436  4.9  read_TC
+ Inline         2     48  2.1  sortout
+ Inline         6     55  2.0  toFloat_TC
+ Inline         2    208  6.3  @ITOF
+ Inline        16    354  4.7  @DIVFF
+ Inline        18    236  3.5  @ADDFF
+0    819  40    3     88  1.7  do_everything
+ Inline         0    176  2.3  display_err
+ Inline         0    176  2.3  display_ok
+0    202  10    5   1496  5.4  fill_display_buff
+0     62   3    6    221  3.2  @DIVS1616
+ Inline         1    123  2.6  dht_display
+ Inline         1    604  6.7  hum_up_set
+ Inline         1    604  6.7  hum_down_set
+0     88   4    0    204  3.1  runtime_relay_function
+1    212  10    1    458  2.9  MAIN
+0    283  14    1    429  6.5  menu
+0    153   7    3    434  4.7  runtime_kthermo
+ Inline         4    786  8.2  @SFTOI
+0     37   2    2   1777  7.3  @MUL88
+0     83   4    1    703  5.3  TIMER0_isr
+0     10   0    0   1882 11.0  @goto36105
+ Inline         0   1075 11.2  @cinit1
+
+Program metrics:
+    Functions               25
+    Statements              292
+    Comments                297
+    Volume (V)              21982
+    Difficulty (D)          120.1
+    Effort to implement (E) 2640209
+    Time to implement (T)   40 hours, 45 minutes
+    Est Delivered Bugs (B)  6
+    Cyclomatic Complexity   63
+    Maintainability (MI)    55
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-00041    62  0  
+00042-007F4  1785  186  
+007F5-007FC     8  0  
+007FD-007FF     0  3  
+00800-00FFF   212  1836  
+
+
+

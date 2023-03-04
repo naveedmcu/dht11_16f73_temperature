@@ -1,0 +1,592 @@
+
+/*
+ * Interfacing PIC16F877A microcontroller with DHT11 temperature
+ * and humidity sensor.
+ * C Code for CCS C compiler.
+ * Temperature, humidity and pressure values are displayed on 20x4 LCD.
+ * This is a free software with NO WARRANTY.
+ * https://simple - circuit.com /
+ */
+// LCD module connections
+// end LCD module connections
+//!#include <16F72.h>
+#include <16F73.h>
+#priority TIMER0,TIMER1
+#fuses HS, NOWDT,
+#use delay(clock = 8000000)
+#use fast_io(B)
+#define DHT11_PIN PIN_A0 // connection pin between DHT11 and mcu
+#define digit_one_on output_high(PIN_C0)
+#define digit_one_off output_low(PIN_C0)
+#define digit_two_on output_high(PIN_C1)
+#define digit_two_off output_low(PIN_C1)
+#define digit_three_on output_high(PIN_C2)
+#define digit_three_off output_low(PIN_C2)
+#define digit_four_on output_high(PIN_C3)
+#define digit_four_off output_low(PIN_C3)
+#define digit_five_on output_high(PIN_C4)
+#define digit_five_off output_low(PIN_C4)
+#define digit_six_on output_high(PIN_C5)
+#define digit_six_off output_low(PIN_C5)
+#define rly1_on output_low(PIN_A1)
+#define rly1_off output_high(PIN_A1)
+#define rly2_on output_low(PIN_A2)
+#define rly2_off output_high(PIN_A2)
+#define set_button input_state(PIN_A3)
+#define up_button input_state(PIN_A4)
+#define down_button input_state(PIN_A5)
+#define TimeOut_Count 100
+#define press 0
+#define nopress 1
+#rom  2037= {25,20,50,40,0,0,0,0}
+#include <max6657.c>
+//!#use rs232(baud=9600, xmitPIN_C6,rcv=PIN_C7)
+int16  temp_Address_high = 2047-10;
+int16  temp_Address_low = 2047-9;
+int16  hum_Address_high = 2047-8;
+int16  hum_Address_low = 2047-7;
+char message1[3];
+char message2[3];
+short Time_out;
+unsigned int8 T_byte1, T_byte2, RH_byte1, RH_byte2, CheckSum;
+char digit[] = {~192, ~249, ~164, ~176, ~153, ~146, ~130, ~248, ~128, ~144, 192, ~134, ~135, ~163, ~171, ~142, ~191,~0b10000111,~0b10001100,~0b00001001};
+int8 digit_one, digit_two, digit_three, digit_four, digit_five, digit_six;
+signed int16 temp_high,temp_low,hum_high,hum_low,menu_counter=0,main_temp,main_hum;
+void dht11_RunTime();
+void menu();
+void runtime_relay_function();
+void start_signal()
+{
+//!   output_drive (DHT11_PIN); // configure connection pin as output
+//!   output_low (DHT11_PIN); // connection pin output low
+//!   delay_ms (25) ;
+//!   output_high (DHT11_PIN); // connection pin output high
+//!   delay_us (30) ;
+//!   output_float (DHT11_PIN); // configure connection pin as input
+}
+
+short check_response()
+{
+//!   delay_us (40) ;
+//!   if (!input (DHT11_PIN))
+//!   {
+//!      // read and test if connection pin is low
+//!      delay_us (80) ;
+//!      if (input (DHT11_PIN))
+//!      {
+//!         // read and test if connection pin is high
+//!         delay_us (50) ;
+//!         return 1;
+//!      }
+//!   }
+}
+
+unsigned int8 Read_Data()
+{
+//!   unsigned int8 i, k, _data = 0; // k is used to count 1 bit reading duration
+//!   if (Time_out)
+//!   break;
+//!   for (i = 0; i < 8; i++)
+//!   {
+//!      k = 0;
+//!      while (!input (DHT11_PIN))
+//!      {
+//!         // Wait until DHT11 pin get raised
+//!         k++;
+//!         if (k > TimeOut_Count)
+//!         {
+//!            Time_out = 1;
+//!            break;
+//!         }
+//!
+//!         delay_us (1) ;
+//!      }
+//!      delay_us (30) ;
+//!      if (!input (DHT11_PIN))
+//!      bit_clear (_data, (7 - i) ); // Clear bit (7 - i)
+//!      else
+//!      {
+//!         bit_set (_data, (7 - i) ); // Set bit (7 - i)
+//!         while (input (DHT11_PIN))
+//!         {
+//!            // Wait until DHT11 pin goes low
+//!            k++;
+//!            if (k > TimeOut_Count)
+//!            {
+//!               Time_out = 1;
+//!               break;
+//!            }
+//!            delay_us (1) ;
+//!         }
+//!      }
+//!   }
+//!   return _data;
+}
+
+//==============================================================================
+void display_time()
+{
+
+}
+
+//==============================================================================
+void display_set_on()
+{
+   digit_one = digit[10];
+   digit_two = digit[11];
+   digit_three = digit[12];
+   digit_four = digit[13];
+   digit_five = digit[14];
+   digit_six = digit[16];
+}
+
+//==============================================================================
+void display_set_off()
+{
+   digit_one = digit[10];
+   digit_two = digit[11];
+   digit_three = digit[12];
+   digit_four = digit[13];
+   digit_five = digit[15];
+   digit_six = digit[15];
+}
+void display_err()
+{
+   digit_one = digit[13];
+   digit_two = digit[15];
+   digit_three = digit[15];
+   digit_four = digit[10];
+   digit_five = digit[10];
+   digit_six = digit[10];
+}
+void display_ok()
+{
+   digit_one = digit[10];
+   digit_two = digit[10];
+   digit_three = digit[10];
+   digit_four = digit[10];
+   digit_five = digit[10];
+   digit_six = digit[10];
+}
+
+//==============================================================================
+void display_set_hour()
+{
+
+}
+
+//==============================================================================
+void display_set_min()
+{
+
+}
+
+//==============================================================================
+void display_set_sec()
+{
+
+}
+//=============================================================================
+void fill_display_buff(signed int16 data,int8 titale)
+{
+ if(titale == 1){
+  digit_one = digit[(data/10)%10];
+  digit_two = digit[(data/1)%10];
+  digit_three = digit[10];
+  digit_four =digit[10];
+  digit_five =digit[17]; 
+  digit_six = digit[1];
+ }else if(titale == 2){
+  digit_one = digit[(data/10)%10];
+  digit_two = digit[(data/1)%10];
+  digit_three = digit[10];
+  digit_four =digit[10];
+  digit_five =digit[17]; 
+  digit_six = digit[2];
+ }else if(titale == 3){
+  digit_one = digit[(data/10)%10];
+  digit_two = digit[(data/1)%10];
+  digit_three = digit[10];
+  digit_four =digit[10];
+  digit_five =digit[19]; 
+  digit_six = digit[1];
+ }else if(titale == 4){
+  digit_one = digit[(data/10)%10];
+  digit_two = digit[(data/1)%10];
+  digit_three = digit[10];
+  digit_four =digit[10];
+  digit_five =digit[19]; 
+  digit_six = digit[2];
+ }
+}
+//=============================================================================
+void dht_display()
+{
+   digit_one = digit[message1[0]-48];
+   digit_two = digit[message1[1] -48];
+//!   digit_three = digit[message1[2] -48];
+   digit_three = digit[10];
+   digit_four = digit[10];
+   digit_five = digit[message2[0] -48];
+   digit_six = digit[message2[1] -48];
+}
+//=============================================================================
+  void temp_down_set(){
+  static unsigned int16 press_counter = 0;
+  if(up_button == press)
+  {
+   while(up_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   temp_low++;
+   if(temp_low >= 99)
+   {
+    temp_low == 0;
+   }
+  }
+  else if(down_button == press)
+  {
+   while(down_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   temp_low--;
+   if(temp_low <= 1)
+   {
+    temp_low = 0;
+   }
+  }
+  fill_display_buff(temp_low,2);
+ }
+ //============================================================================ 
+ //****************************************************************************
+  void temp_up_set(){
+  static unsigned int16 press_counter = 0;
+  if(up_button == press)
+  { 
+   while(up_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   temp_high++;
+   if(temp_high >= 99)
+   {
+    temp_high == 0;
+   }
+  }
+  else if(down_button == press)
+  {
+   while(down_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   temp_high--;
+   if(temp_high <= 1)
+   {
+    temp_high = 1;
+   }
+  }
+   fill_display_buff(temp_high,1);
+ }
+//-----------------------------------------------------------------------------
+  void hum_up_set(){
+  static unsigned int16 press_counter = 0;
+  if(up_button == press)
+  { 
+   while(up_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   hum_high++;
+   if(hum_high >= 99)
+   {
+    hum_high == 0;
+   }
+  }
+  else if(down_button == press)
+  {
+   while(down_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   hum_high--;
+   if(hum_high <= 1)
+   {
+    hum_high = 1;
+   }
+  }
+   fill_display_buff(hum_high,3);
+ }
+//-----------------------------------------------------------------------------
+  void hum_down_set(){
+  static unsigned int16 press_counter = 0;
+  if(up_button == press)
+  {
+   while(up_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   hum_low++;
+   if(hum_low >= 99)
+   {
+    hum_low == 0;
+   }
+  }
+  else if(down_button == press)
+  {
+   while(down_button == press)
+   {
+     press_counter++;
+     if(press_counter >= 35000){
+     break;
+    }
+   }
+   press_counter = 0;
+   hum_low--;
+   if(hum_low <= 1)
+   {
+    hum_low = 0;
+   }
+  }
+  fill_display_buff(hum_low,4);
+ }
+//=============================================================================
+void runtime_relay_function()
+{
+  if(main_temp >= temp_high)
+  {
+   rly1_off;
+  }else if(main_temp <= temp_low)
+  {
+   rly1_on;  
+  }
+  //-------------
+  if(main_hum >= hum_high)
+  {
+   rly2_off;
+  }else if(main_hum <= hum_low)
+  {
+   rly2_on;  
+  }
+}
+//-----------------------------------------------------------------------------
+void main()
+{
+   temp_high=read_program_eeprom(temp_Address_high);
+   temp_low=read_program_eeprom(temp_Address_low);
+   hum_high=read_program_eeprom(hum_Address_high);
+   hum_low=read_program_eeprom(hum_Address_low);
+   set_tris_b (0x00) ;
+   SETUP_ADC_PORTS (NO_ANALOGS) ;
+   //!  SETUP_TIMER_0(T0_INTERNAL | T0_DIV_4);
+   setup_timer_0 (RTCC_INTERNAL|RTCC_DIV_128|RTCC_8_BIT); //16.3 ms overflow
+//!   setup_timer_1 (T1_INTERNAL|T1_DIV_BY_2);     //32.7 ms overflow
+   SET_TIMER0 (128) ;
+//!   SET_TIMER1 (0) ;
+   enable_interrupts (int_TIMER0) ;
+   disable_interrupts (int_TIMER1) ;
+//!   enable_interrupts (PERIPH) ;
+   enable_interrupts (GLOBAL) ;
+   do_everything(TC_CS);
+   delay_ms (1000) ;
+   while (TRUE)
+   {
+//!   fill_display_buff(999);
+      menu();
+      dht11_RunTime();
+      runtime_relay_function();
+      printf("Temp:%3.2fF\n\r",do_everything());
+      delay_ms (10) ;
+   }
+}
+void menu()
+{
+if(set_button == press )
+ {
+  menu_counter++;
+//!  if(menu_counter > 5)
+//!  {
+//!   menu_counter = 0;
+//!  }
+ }
+ switch (menu_counter)
+ {
+  case 0:
+   dht_display();
+  break;
+  case 1:
+   temp_up_set();
+  break;
+  case 2:
+   temp_down_set();
+  break;
+  case 3:
+   hum_up_set();
+  break;
+  case 4:
+   hum_down_set();
+  break;
+  case 5:
+  if(temp_low >= temp_high && hum_low >= hum_high)
+  {
+   display_err();
+   delay_ms(1000);
+  }else {
+//!   write_program_eeprom(temp_Address_high,(int16)temp_high);
+//!   write_program_eeprom(temp_Address_low,(int16)temp_low);
+//!   write_program_eeprom(hum_Address_high,(int16)hum_high);
+//!   write_program_eeprom(hum_Address_low,(int16)hum_low);
+   display_ok();
+   delay_ms(1000);
+  }
+  menu_counter = 0;
+  break;
+ }
+ while(set_button == press);
+}
+void dht11_RunTime()
+{
+      Time_out = 0;
+      Start_signal () ;
+      if (check_response ())
+      {
+         // if there is a response from sensor
+               RH_byte1 = Read_Data(); // read RH byte1
+               RH_byte2 = Read_Data(); // read RH byte2
+               T_byte1 = Read_Data();  // read T byte1
+               T_byte2 = Read_Data();  // read T byte2
+               Checksum = Read_Data(); // read checksum
+      
+         if (Time_out)
+         {
+            // If reading takes long time
+//!            display_set_off () ;
+         }
+         else
+         {
+            if (CheckSum == ((RH_Byte1 + RH_Byte2 + T_Byte1 + T_Byte2)&0xFF))
+            {
+               message1[0] = T_Byte1 / 10 + 48;
+               message1[1] = T_Byte1 % 10 + 48;
+               message1[2] = T_Byte2 / 10 + 48;
+               message2[0] = RH_Byte1 / 10 + 48;
+               message2[1] = RH_Byte1 % 10 + 48;
+               message2[2] = RH_Byte2 / 10 + 48;
+               main_temp = ((message1[0]-48)*10)+(message1[1]-48);
+               main_hum =((message2[0]-48)*10)+(message2[1]-48);      
+//!               printf("Temp:%lu Hum:%lu \n\r",main_temp,main_hum);
+            }
+            else
+            {
+             //!            display_set_off () ;
+            }
+         }
+      }
+      else
+      {
+      //!            display_set_off () ;
+      }
+}
+#int_TIMER0
+void TIMER0_isr(void)
+{
+   static int8 number_of_segment = 0;
+   SET_TIMER0 (100);
+   output_c (0);
+   number_of_segment++;
+   switch (number_of_segment)
+   {
+      case 1:
+      output_b (digit_one&0x7F);
+      digit_one_on;      
+      break;
+      case 2:
+      output_b (digit_two|0b10000000) ;
+      digit_two_on;
+      break;
+      case 3:
+      output_b (digit_three&0x7F) ;
+      digit_three_on;
+      break;
+      case 4:
+      output_b (digit_four&0x7F) ;
+      digit_four_on;
+      break;
+      case 5:
+      output_b (digit_five&0x7F) ;
+      digit_five_on;
+      break;
+      case 6:
+      output_b (digit_six&0x7F) ;
+      digit_six_on;
+      number_of_segment = 0;
+      break;
+   }
+//!   if (number_of_segment == 1)
+//!   {
+//!      output_b (digit_one&0x7F) ;
+//!      digit_one_on;
+//!   }
+//!
+//!   else if (number_of_segment == 2)
+//!   {
+//!      output_b (digit_two|0b10000000) ;
+//!      digit_two_on;
+//!   }
+//!
+//!   else if (number_of_segment == 3)
+//!   {
+//!      output_b (digit_three&0x7F) ;
+//!      digit_three_on;
+//!   }
+//!
+//!   else if (number_of_segment == 4)
+//!   {
+//!      output_b (digit_four&0x7F) ;
+//!      digit_four_on;
+//!   }
+//!
+//!   else if (number_of_segment == 5)
+//!   {
+//!      output_b (digit_five&0x7F) ;
+//!      digit_five_on;
+//!   }
+//!
+//!   else if (number_of_segment == 6)
+//!   {
+//!      output_b (digit_six&0x7F) ;
+//!      digit_six_on;
+//!      number_of_segment = 0;
+//!   }
+}
+
+
